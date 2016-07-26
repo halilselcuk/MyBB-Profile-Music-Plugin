@@ -38,6 +38,8 @@ Verifiers
 This feature checks whether the user's link is correct and reachable. Show warning message to user if link is not incorrect or cannot reachable. SoundCloud and YouTube links are verifiying with oEmbed, but hotlink sound links are verifiying with audio tag which kind of MIME type.
 
 
+Demo: http://demomybb.tk
+
 Installion
 
 Upload files to your MyBB root -> go your plugin manager -> Install & Activate: Profile Music Plugin.
