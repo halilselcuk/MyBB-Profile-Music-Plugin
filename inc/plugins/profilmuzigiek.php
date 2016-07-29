@@ -39,10 +39,10 @@ function profilmuzigiek_info()
 	return array(
 		"name" => $lang->profilmuzigiek_name,
 		"description" => $aciklama,
-		"website" => "http://community.mybb.com/mods.php?action=view&pid=75",
+		"website" => "https://halilselcuk.blogspot.com.tr/2016/07/mybb-profile-music-plugin.html",
 		"author" => "</i>Halil Selçuk<i>",
 		"authorsite" => "http://halil.selçuk.gen.tr/",
-		"version" => "1.7",
+		"version" => "1.7.1",
 		"compatibility" => "*",
 		"codename" => "my_profile_music"
 	);
@@ -450,7 +450,7 @@ function profilmuzigiek_mod_update()
 		if(!strstr($mybb->input['profilmuzigi'],'"'))
 		{
 			$acikmi = 1;
-			if($mybb->input['profilmuzigiacik'] == "") $acikmi = 0;
+			if(!isset($mybb->input['profilmuzigiacik'])) $acikmi = 0;
 			$dizi = array
 			(
 			pmsurum => $db->escape_string($mybb->input['profilmuzigi']),
@@ -582,7 +582,7 @@ function y_profil_guncelle()
 		if(!strstr($mybb->input['profilmuzigi'],'"'))
 		{
 			$acikmi = 1;
-			if($mybb->input['profilmuzigiacik'] == "") $acikmi = 0;
+			if(!isset($mybb->input['profilmuzigiacik'])) $acikmi = 0;
 			$dizi = array
 			(
 			pmsurum => $db->escape_string($mybb->input['profilmuzigi']),
