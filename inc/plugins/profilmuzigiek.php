@@ -25,7 +25,7 @@ define(pmsurum, "profilmuzigi17");
 
 function profilmuzigiek_info()
 {
-	global $lang, $db, $cp_language;
+	global $lang, $db, $cp_language, $config, $mybb;
 	
 	//Eklenti için kullanıcının dili yüklü değilse İngilizceyi kullanır. Bu sadece yönetici sayfalarında kullanılır.
 	if(!file_exists(MYBB_ROOT . "inc/languages/" . $cp_language . "/admin/profilmuzigi.lang.php")) $lang->set_language("english", "admin");
@@ -35,14 +35,15 @@ function profilmuzigiek_info()
 	$aciklama = $lang->profilmuzigiek_desc;
 	$sorgu = $db->query("SELECT * FROM ".TABLE_PREFIX."settinggroups WHERE name='profilmuzigiayarlari'");
 	$ayar = $db->fetch_array($sorgu);
-	if($ayar != null) $aciklama .= "<hr>".$lang->profilmuzigiek_settings_url = $lang->sprintf($lang->profilmuzigiek_settings_url, "?module=config-settings&action=change&gid=".$ayar["gid"]);
+	if($ayar != null) $aciklama .= "<hr>".$lang->profilmuzigiek_theme_change = $lang->sprintf($lang->profilmuzigiek_theme_change, $mybb->settings['bburl']."/".$config['admin_dir']."?module=config-plugins&profilmuzigi_islem=sablon_kodlarini_ekle&my_post_key=".$mybb->post_code);
+	if($ayar != null) $aciklama .= "<hr>".$lang->profilmuzigiek_settings_url = $lang->sprintf($lang->profilmuzigiek_settings_url, $mybb->settings['bburl']."/".$config['admin_dir']."/?module=config-settings&action=change&gid=".$ayar["gid"]);
 	return array(
 		"name" => $lang->profilmuzigiek_name,
 		"description" => $aciklama,
 		"website" => "https://halilselcuk.blogspot.com.tr/2016/07/mybb-profile-music-plugin.html",
 		"author" => "</i>Halil Selçuk<i>",
 		"authorsite" => "http://halil.selçuk.gen.tr/",
-		"version" => "1.7.1",
+		"version" => "1.7.2",
 		"compatibility" => "*",
 		"codename" => "my_profile_music"
 	);
@@ -72,7 +73,6 @@ function profilmuzigiek_install()
 		
 		$cache->update_usergroups();
 		$youtube = array(
-			"tid" => "NULL",
 			"title" => "profilmuzigiek_youtube",
 			"template" => $db->escape_string('<br/>
 <iframe width="300" height="200" src="https://www.youtube.com/embed/{$youtubeid}" frameborder="0" allowfullscreen>
@@ -81,7 +81,6 @@ function profilmuzigiek_install()
 		);
 		$db->insert_query("templates", $youtube);
 		$mp3 = array(
-			"tid" => "NULL",
 			"title" => "profilmuzigiek_direct_link_sound",
 			"template" => $db->escape_string('<br/>
 <audio controls {$ekle} >
@@ -91,7 +90,6 @@ function profilmuzigiek_install()
 		);
 		$db->insert_query("templates", $mp3);
 		$profilduzenle = array(
-			"tid" => "NULL",
 			"title" => "profilmuzigiek_profilduzenle",
 			"template" => $db->escape_string('<fieldset class="trow2">
 	<legend><strong><img src="{$mybb->settings[\'bburl\']}/images/muzik.png" alt="profilmuzigi" title="profilmuzigi" /> {$lang->profilmuzigiek_usercp}</strong></legend>
@@ -117,7 +115,6 @@ function profilmuzigiek_install()
 		);
 		$db->insert_query("templates", $profilduzenle);
 		$modprofilduzenle = array(
-			"tid" => "NULL",
 			"title" => "profilmuzigiek_modprofilduzenle",
 			"template" => $db->escape_string('<fieldset class="trow2">
 	<legend><strong><img src="{$mybb->settings[\'bburl\']}/images/muzik.png" alt="profilmuzigi" title="profilmuzigi" /> {$lang->profilmuzigiek_modcp}</strong></legend>
@@ -641,7 +638,6 @@ function profilmuzigi_guncelle()
 		rebuild_settings();
 		
 		$mp3 = array(
-			"tid" => "NULL",
 			"title" => "profilmuzigiek_direct_link_sound",
 			"template" => $db->escape_string('<br/>
 <audio controls {$ekle} >
@@ -651,7 +647,6 @@ function profilmuzigi_guncelle()
 		);
 		$db->insert_query("templates", $mp3);
 		$profilduzenle = array(
-			"tid" => "NULL",
 			"title" => "profilmuzigiek_profilduzenle",
 			"template" => $db->escape_string('<fieldset class="trow2">
 	<legend><strong><img src="{$mybb->settings[\'bburl\']}/images/muzik.png" alt="profilmuzigi" title="profilmuzigi" /> {$lang->profilmuzigiek_usercp}</strong></legend>
@@ -678,6 +673,8 @@ function profilmuzigi_guncelle()
 		$db->insert_query("templates", $profilduzenle);
 		
 	if(file_exists(MYBB_ROOT."/mp3player.swf")) unlink(MYBB_ROOT."/mp3player.swf");
+	flash_message($lang->profilmuzigiek_update_success, "success");
+	admin_redirect("index.php?module=config-plugins");
 	
 	}
 }
@@ -692,16 +689,35 @@ function profilmuzigi_islem()
 	{
 		profilmuzigi_guncelle();
 	}
+	if($islem == 'sablon_kodlarini_ekle')
+	{
+		profilmuzigiek_sablon_kodlarini_ekle();
+	}
 }
 
 function profilmuzigi_guncelle_bildirim()
 {
-	global $lang, $mybb, $db, $cp_language;
+	global $lang, $mybb, $db, $cp_language, $config;
 	if(!file_exists(MYBB_ROOT . "inc/languages/" . $cp_language . "/admin/profilmuzigi.lang.php")) $lang->set_language("english", "admin");
 	$lang->load("profilmuzigi", true);
 	$lang->set_language($cp_language, "admin");
-	$guncelleurl = "?module=config-plugins&profilmuzigi_islem=guncelle&my_post_key=".$mybb->post_code;
+	$guncelleurl = $mybb->settings['bburl']."/".$config['admin_dir']."/?module=config-plugins&profilmuzigi_islem=guncelle&my_post_key=".$mybb->post_code;
 	if($db->field_exists("profilmuzigi165", "users")) flash_message("<b>" . $lang->profilmuzigiek_name . "</b></br>" . $lang->sprintf($lang->profilmuzigiek_update, $guncelleurl), "error");
+}
+
+function profilmuzigiek_sablon_kodlarini_ekle()
+{
+	global $db, $lang, $cp_language;
+	if(!file_exists(MYBB_ROOT . "inc/languages/" . $cp_language . "/admin/profilmuzigi.lang.php")) $lang->set_language("english", "admin");
+	$lang->load("profilmuzigi", true);
+	$lang->set_language($cp_language, "admin");
+	require_once MYBB_ROOT . "inc/adminfunctions_templates.php";
+
+	find_replace_templatesets('modcp_editprofile', '#{\$customfields\}#', '{$customfields}{$modprofilmuzigiduzenle}');
+	find_replace_templatesets('usercp_profile', '#{\$customfields\}#', '{$customfields}{$profilmuzigiduzenle}');
+	find_replace_templatesets('member_profile', '#{\$userstars\}<br />#', '{$userstars}<br />{$profilmuzigi}');
+	flash_message($lang->profilmuzigiek_add_template_code_success, "success");
+	admin_redirect("index.php?module=config-plugins");
 }
 
 ?>

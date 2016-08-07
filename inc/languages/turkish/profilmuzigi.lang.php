@@ -2,9 +2,12 @@
 
 //Admin CP Plugins
 $l['profilmuzigiek_name'] = "Profil Müziği Eklentisi";
-$l['profilmuzigiek_desc'] = "Bu eklenti sayesinde üyeleriniz profiline müzik ekleyebilir. Eklenti SoundCloud, YouTube ve doğrudan bağlantılı ses dosyalarını (HTML5 ile) destekler.";
+$l['profilmuzigiek_desc'] = 'Bu eklenti sayesinde üyeleriniz profiline müzik ekleyebilir. Eklenti SoundCloud, YouTube ve doğrudan bağlantılı ses dosyalarını (HTML5 ile) destekler.';
 $l['profilmuzigiek_settings_url'] = 'Eğer eklentiyle ilgili bir sorun yaşıyorsanız <strong><a href="{1}">eklenti ayarları</a></strong>nı kontrol ediniz.';
 $l['profilmuzigiek_update'] = '<b><font color="blue">Güncelleme:</font></b> Profil Müziği Eklentisinin yeni sürümünü yüklediniz. Yeni sürümün doğru çalışabilmesi için güncelleyiciyi çalıştırmalısınız. <a href="{1}">Çalıştırmak için buraya tıklayınız.</a>';
+$l['profilmuzigiek_update_success'] = 'Profil Müziği Eklentisi başarıyla güncellendi.';
+$l['profilmuzigiek_theme_change'] = '<strong>Tema Değişikliği: </strong> Tema değişikliğinde eklentinin şablon kodları yeni şablonlara yeniden eklenmelidir. Temanızı değiştirdiyseniz kodları eklemek için <a href="{1}"> buraya tıklayın.</a> Daha fazla yardım gerekiyorsa <a href="http://halilselcuk.blogspot.com.tr/2016/07/mybb-profil-muzigi-eklentisi.html">yardım sayfasını ziyaret edin.</a>';
+$l['profilmuzigiek_add_template_code_success'] = 'Şablon kodları başarıyla eklendi.';
 
 //Edit Profile
 $l['profilmuzigiek_usercp'] = "Profil Müziği";

@@ -2,9 +2,12 @@
 
 //Admin CP Plugins
 $l['profilmuzigiek_name'] = "Profile Music Plugin";
-$l['profilmuzigiek_desc'] = "This plugin, allows users to add profile music. Plugin support SoundCloud, YouTube and hotlink sound files (with HTML5).";
+$l['profilmuzigiek_desc'] = 'This plugin, allows users to add profile music. Plugin support SoundCloud, YouTube and hotlink sound files (with HTML5).';
 $l['profilmuzigiek_settings_url'] = 'If you have problems about plugin please check <strong><a href="{1}">plugin settings</a></strong>.';
 $l['profilmuzigiek_update'] = '<b><font color="blue">Update:</font></b> You have been uploaded Profile Music Plugin\'s new version. The updater must be run by yourself to work correctly in the new version. <a href="{1}">Click here to run.</a>';
+$l['profilmuzigiek_update_success'] = 'Profile Music Plugin updated succesfully.';
+$l['profilmuzigiek_theme_change'] = '<strong>Theme Change: </strong> You must add plugin template codes to new templates on change theme. If you change your theme <a href="{1}">click here</a> to add codes. If you need more info visit <a href="https://github.com/halilselcuk/MyBB-Profile-Music-Plugin/wiki">Wiki</a>.';
+$l['profilmuzigiek_add_template_code_success'] = 'Template codes added succesfully.';
 
 //Edit Profile
 $l['profilmuzigiek_usercp'] = "Profile Music";
