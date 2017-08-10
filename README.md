@@ -1,6 +1,6 @@
 Installion
 
-Upload files (inc and ) to your MyBB root -> go your plugin manager -> Install & Activate: Profile Music Plugin.
+Upload files (inc and images) to your MyBB root -> go your plugin manager -> Install & Activate: Profile Music Plugin.
 
 
 Update 1.6.5.2 to 1.7.2.1:
