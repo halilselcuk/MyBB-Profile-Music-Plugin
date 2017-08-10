@@ -1,8 +1,8 @@
 <?php
 /*
 Mısırga
-http://halil.selçuk.gen.tr
-http://community.mybb.com/mods.php?action=view&pid=75
+https://halilselcuk.com
+https://community.mybb.com/mods.php?action=view&pid=75
 */
 
 if (!defined("IN_MYBB"))
@@ -40,10 +40,10 @@ function profilmuzigiek_info()
 	return array(
 		"name" => $lang->profilmuzigiek_name,
 		"description" => $aciklama,
-		"website" => "https://halilselcuk.blogspot.com.tr/2016/07/mybb-profile-music-plugin.html",
+		"website" => "http://www.halilselcuk.net/2016/07/mybb-profile-music-plugin.html",
 		"author" => "</i>Halil Selçuk<i>",
-		"authorsite" => "http://halil.selçuk.gen.tr/",
-		"version" => "1.7.2",
+		"authorsite" => "https://halilselcuk.com",
+		"version" => "1.7.2.1",
 		"compatibility" => "*",
 		"codename" => "my_profile_music"
 	);
@@ -509,7 +509,7 @@ function grupyetkileri($pluginargs)
 	$lang->set_language($cp_language, "admin");
 	if ($pluginargs['title'] == $lang->misc && $lang->misc)
 	{
-		 $ayar = "<strong>".$lang->profilmuzigiek_setting_can_add_music."</strong><br /> <div class=\"user_settings_bit\">" .$form->generate_check_box('profilmuzigi', 0, $lang->profilmuzigiek_setting_can_add_music, array(
+		 $ayar = "<strong>".$lang->profilmuzigiek_setting_can_add_music."</strong><br /> <div class=\"user_settings_bit\">" .$form->generate_check_box('profilmuzigi', 1, $lang->profilmuzigiek_setting_can_add_music, array(
 			'checked' => $mybb->input['profilmuzigi'],
 			'class' => 'checkbox_input',
 			'id' => 'profilmuzigi',
@@ -523,6 +523,7 @@ function grupyetkileriguncelle()
 {
 	global $mybb, $updated_group;
 	$updated_group['profilmuzigi'] = $mybb->input['profilmuzigi'];
+	error_log($mybb->input['profilmuzigi'], 0);
 }
 
 function y_profil_duzenle($pluginargs)
