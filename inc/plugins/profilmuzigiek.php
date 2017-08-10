@@ -523,7 +523,6 @@ function grupyetkileriguncelle()
 {
 	global $mybb, $updated_group;
 	$updated_group['profilmuzigi'] = $mybb->input['profilmuzigi'];
-	error_log($mybb->input['profilmuzigi'], 0);
 }
 
 function y_profil_duzenle($pluginargs)
