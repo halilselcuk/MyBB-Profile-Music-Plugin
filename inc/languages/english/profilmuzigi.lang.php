@@ -52,6 +52,7 @@ $l['profilmuzigiek_setting_soundcloud_parameters'] = "SoundCloud parameters:";
 $l['profilmuzigiek_setting_soundcloud_parameters_desc'] = "For parameters and info: <a href=\"https://developers.soundcloud.com/docs/api/html5-widget\" target=\"_blank\">https://developers.soundcloud.com/docs/api/html5-widget</a> ";
 $l['profilmuzigiek_setting_autoplay'] = "Activate Autoplay";
 $l['profilmuzigiek_setting_autoplay_desc'] = "If you activate this setting musics will automatically start playing.";
+$l['profilmuzigiek_setting_http_allowed'] = "Allow Insecure Connection";
 $l['profilmuzigiek_setting_http_allowed_desc'] = "If your site supports secure connections, disable this setting. If you disable this setting, starting with HTTP URL's will be be denied.";
 
 ?>
