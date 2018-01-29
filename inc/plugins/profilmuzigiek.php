@@ -21,7 +21,7 @@ $plugins->add_hook("admin_formcontainer_output_row", "y_profil_duzenle");
 $plugins->add_hook("admin_user_users_edit", "y_profil_guncelle");
 $plugins->add_hook("admin_page_output_header", "profilmuzigi_guncelle_bildirim");
 $plugins->add_hook("admin_config_plugins_begin", "profilmuzigi_islem");
-define(pmsurum, "profilmuzigi17");
+define(pmsurum, "profilmuzigi173");
 
 function profilmuzigiek_info()
 {
@@ -43,7 +43,7 @@ function profilmuzigiek_info()
 		"website" => "http://www.halilselcuk.net/2016/07/mybb-profile-music-plugin.html",
 		"author" => "</i>Halil Selçuk<i>",
 		"authorsite" => "https://halilselcuk.com",
-		"version" => "1.7.2.1",
+		"version" => "1.7.3",
 		"compatibility" => "*",
 		"codename" => "my_profile_music"
 	);
@@ -63,7 +63,7 @@ function profilmuzigiek_install()
 	$lang->load("profilmuzigi", true);
 	$lang->set_language($cp_language, "admin");
 	
-	if($db->field_exists("profilmuzigi165", "users")) profilmuzigi_guncelle();
+	if($db->field_exists("profilmuzigi17", "users")) profilmuzigi_guncelle();
 	else
 	{
 		$db->query("ALTER TABLE " . TABLE_PREFIX . "users ADD " . pmsurum . " VARCHAR(300) NULL");
@@ -176,6 +176,13 @@ function profilmuzigiek_install()
 				'value' => 1,
 				'disporder' => 1
 			) ,
+			'profilmuzigiek_http_allowed' => array(
+				'title' => $lang->profilmuzigiek_setting_http_allowed,
+				'description' =>  $db->escape_string($lang->profilmuzigiek_setting_http_allowed_desc),
+				'optionscode' => 'yesno',
+				'value' => (parse_url($mybb->settings['bburl'])['scheme'] == 'http') ? 1 : 0,
+				'disporder' => 7
+			) ,
 				'profilmuzigiek_dogrulayicilar' => array(
 				'title' => $lang->profilmuzigiek_setting_validators,
 				'description' => $db->escape_string($lang->profilmuzigiek_setting_validators_desc),
@@ -228,6 +235,8 @@ function profilmuzigiek_uninstall()
 	$db->delete_query("settings", "name = 'profilmuzigiek_soundcloud'");
 	$db->delete_query("settings", "name = 'profilmuzigiek_mp3'");
 	$db->delete_query("settings", "name = 'profilmuzigiek_dogrulayicilar'");
+	$db->delete_query("settings", "name = 'profilmuzigiek_http_allowed'");
+	
 }
 
 function profilmuzigiek_deactivate()
@@ -332,11 +341,12 @@ function profilmuzigi_getir($yer = "profil")
 				}
 				else if ($mybb->settings['profilmuzigiek_mp3'])
 				{
+				if(parse_url($url)['scheme'] != 'https' && !$mybb->settings['profilmuzigiek_http_allowed']) return hatayaz($lang->profilmuzigiek_http_not_allowed, $yer, $user2);
 				$ekle = "";
 				if($mybb->settings['profilmuzigiek_otomatik_oynat'] && $yer == "profil") $ekle = "autoplay";
 					if ($mybb->settings['profilmuzigiek_dogrulayicilar'])
 					{
-						if (validatemp3($url))
+							if (validatemp3($url))
 						{
 							eval("\$profilmuzigi = \"" . $templates->get("profilmuzigiek_direct_link_sound") . "\";");
 						}
@@ -361,7 +371,7 @@ function hatayaz($mesaj, $yer, $user2)
 	if($yer == "profil")
 	{
 	$user_perms = user_permissions($mybb->user['uid']);
-	if (($user2 == $mybb->user['uid']) || ($user_perms['issupermod'] == 1))
+	if (/*($user2 == $mybb->user['uid']) ||*/ ($user_perms['issupermod'] == 1))
 	{
 		$lang->load("profilmuzigi", true);
 		if (($user_perms['issupermod'] == 1) && ($user2 != $mybb->user['uid']))
@@ -597,35 +607,19 @@ function profilmuzigi_guncelle()
 	$lang->load("profilmuzigi", true);
 	$lang->set_language($cp_language, "admin");
 	
-	if($db->field_exists("profilmuzigi165", "users"))
+	if($db->field_exists("profilmuzigi17", "users"))
 	{
-		$db->query("ALTER TABLE " . TABLE_PREFIX . "users CHANGE profilmuzigi165 " . pmsurum . " VARCHAR(300) NULL");
-		$db->delete_query("templates", "title = 'profilmuzigiek_soundcloud'");
-		$db->delete_query("templates", "title = 'profilmuzigiek_mp3'");
-		$db->delete_query("templates", "title = 'profilmuzigiek_profilduzenle'");
-		$db->update_query("settings", array("description" => $db->escape_string($lang->profilmuzigiek_setting_soundcloud_desc), "value" => function_exists(curl_init) ? 1 : 0, "disporder" => 3), "name='profilmuzigiek_soundcloud'");
-		$db->update_query("settings", array("name" => "profilmuzigiek_dogrulayicilar", "title" => $lang->profilmuzigiek_setting_validators, "disporder" => 0, "description" => $db->escape_string($lang->profilmuzigiek_setting_validators_desc), "value" => ini_get("allow_url_fopen") ? 1 : 0), "name='profilmuzigiek_mp3dogrulayici'");
-		$db->update_query("settings", array("disporder" => 2), "name='profilmuzigiek_youtube'");
-		$db->update_query("usergroups", array("profilmuzigi" => 0), "isbannedgroup = 1");
-		
+		$db->query("ALTER TABLE " . TABLE_PREFIX . "users CHANGE profilmuzigi17 " . pmsurum . " VARCHAR(300) NULL");
 
-		
 		$sorgu = $db->query("SELECT * FROM ".TABLE_PREFIX."settinggroups WHERE name='profilmuzigiayarlari'");
 		$ayar = $db->fetch_array($sorgu);
-				$profilmuzigiayarlar = array(
-				'profilmuzigiek_soundcloud_degistirgenler' => array(
-				'title' => $lang->profilmuzigiek_setting_soundcloud_parameters,
-				'description' => $db->escape_string($lang->profilmuzigiek_setting_soundcloud_parameters_desc),
-				'optionscode' => 'text',
-				'value' => "&maxheight=130&color=0066cc&visual=false&show_comments=false&iframe=true",
-				'disporder' => 5
-			),
-				'profilmuzigiek_otomatik_oynat' => array(
-				'title' => $lang->profilmuzigiek_setting_autoplay,
-				'description' => $db->escape_string($lang->profilmuzigiek_setting_autoplay_desc),
+		$profilmuzigiayarlar = array(
+			'profilmuzigiek_http_allowed' => array(
+				'title' => $lang->profilmuzigiek_setting_http_allowed,
+				'description' =>  $db->escape_string($lang->profilmuzigiek_setting_http_allowed_desc),
 				'optionscode' => 'yesno',
-				'value' => 0,
-				'disporder' => 4
+				'value' => (parse_url($mybb->settings['bburl'])['scheme'] == 'http') ? 1 : 0,
+				'disporder' => 7
 			)
 		);
 		foreach($profilmuzigiayarlar as $name => $setting)
@@ -637,44 +631,8 @@ function profilmuzigi_guncelle()
 
 		rebuild_settings();
 		
-		$mp3 = array(
-			"title" => "profilmuzigiek_direct_link_sound",
-			"template" => $db->escape_string('<br/>
-<audio controls {$ekle} >
-  <source src="{$url}">
-</audio>') ,
-			"sid" => "-1",
-		);
-		$db->insert_query("templates", $mp3);
-		$profilduzenle = array(
-			"title" => "profilmuzigiek_profilduzenle",
-			"template" => $db->escape_string('<fieldset class="trow2">
-	<legend><strong><img src="{$mybb->settings[\'bburl\']}/images/muzik.png" alt="profilmuzigi" title="profilmuzigi" /> {$lang->profilmuzigiek_usercp}</strong></legend>
-	<table cellspacing="0" cellpadding="{$theme[\'tablespace\']}">
-	<tr>
-		<tr>
-			<td>
-				<span class="smalltext">{$lang->profilmuzigiek_usercp_yourmusic}</span>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<input type="text" class="textbox" name="profilmuzigi" size="40" value="{$url}"/>
-			</td>
-		</tr>
-	</tr>
-</tr>
-</table>
-<font size="1">{$lang->profilmuzigiek_usercp_exp}</font>
-			{$uyari}
-</fieldset>') ,
-			"sid" => "-1",
-		);
-		$db->insert_query("templates", $profilduzenle);
-		
-	if(file_exists(MYBB_ROOT."/mp3player.swf")) unlink(MYBB_ROOT."/mp3player.swf");
-	flash_message($lang->profilmuzigiek_update_success, "success");
-	admin_redirect("index.php?module=config-plugins");
+		flash_message($lang->profilmuzigiek_update_success, "success");
+		admin_redirect("index.php?module=config-plugins");
 	
 	}
 }
@@ -702,7 +660,7 @@ function profilmuzigi_guncelle_bildirim()
 	$lang->load("profilmuzigi", true);
 	$lang->set_language($cp_language, "admin");
 	$guncelleurl = $mybb->settings['bburl']."/".$config['admin_dir']."/?module=config-plugins&profilmuzigi_islem=guncelle&my_post_key=".$mybb->post_code;
-	if($db->field_exists("profilmuzigi165", "users")) flash_message("<b>" . $lang->profilmuzigiek_name . "</b></br>" . $lang->sprintf($lang->profilmuzigiek_update, $guncelleurl), "error");
+	if($db->field_exists("profilmuzigi17", "users")) flash_message("<b>" . $lang->profilmuzigiek_name . "</b></br>" . $lang->sprintf($lang->profilmuzigiek_update, $guncelleurl), "error");
 }
 
 function profilmuzigiek_sablon_kodlarini_ekle()

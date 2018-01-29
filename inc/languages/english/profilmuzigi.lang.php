@@ -15,10 +15,10 @@ $l['profilmuzigiek_usercp_yourmusic'] = "Your profile music link:";
 $l['profilmuzigiek_usercp_exp'] = "Link must be SoundCloud, YouTube or hotlink sound file. Example: </br>
 Soundcloud: https://soundcloud.com/cr2o3/tomb-raider-legend-main-theme</br>
 
-Youtube: http://www.youtube.com/watch?v=vT8OU5WtfkQ</br>
+Youtube: https://www.youtube.com/watch?v=vT8OU5WtfkQ</br>
 
 
-Hotlink sound: http://demomybb.tk/demo.mp3</br>";
+Hotlink sound: https://demomybb.tk/demo.mp3</br>";
 
 
 //MOD CP
@@ -38,6 +38,7 @@ $l['profilmuzigiek_youtube_d_error'] = "YouTube support disabled by administrato
 $l['profilmuzigiek_soundcloud_d_error'] = "SoundCloud support disabled by administrator.";
 $l['profilmuzigiek_mp3_d_error'] = "Hotlink sound support disabled by administrator. In spite of your links are YouTube or SoundCloud getting this error please check your link.";
 $l['profilmuzigiek_error_for_smod'] = "<i>Note: You are seeing this user's profile music error for you have super moderator permissions.</i>";
+$l['profilmuzigiek_http_not_allowed'] = "Insecure connection is not allowed. The MP3 URL has to begin with https://.";
 
 //Admin CP Settings
 $l['profilmuzigiek_setting_title'] = "Profile Music Settings";
@@ -51,5 +52,6 @@ $l['profilmuzigiek_setting_soundcloud_parameters'] = "SoundCloud parameters:";
 $l['profilmuzigiek_setting_soundcloud_parameters_desc'] = "For parameters and info: <a href=\"https://developers.soundcloud.com/docs/api/html5-widget\" target=\"_blank\">https://developers.soundcloud.com/docs/api/html5-widget</a> ";
 $l['profilmuzigiek_setting_autoplay'] = "Activate Autoplay";
 $l['profilmuzigiek_setting_autoplay_desc'] = "If you activate this setting musics will automatically start playing.";
+$l['profilmuzigiek_setting_http_allowed_desc'] = "If your site supports secure connections, disable this setting. If you disable this setting, starting with HTTP URL's will be be denied.";
 
 ?>
