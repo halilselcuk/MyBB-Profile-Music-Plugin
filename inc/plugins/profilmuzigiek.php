@@ -21,7 +21,7 @@ $plugins->add_hook("admin_formcontainer_output_row", "y_profil_duzenle");
 $plugins->add_hook("admin_user_users_edit", "y_profil_guncelle");
 $plugins->add_hook("admin_page_output_header", "profilmuzigi_guncelle_bildirim");
 $plugins->add_hook("admin_config_plugins_begin", "profilmuzigi_islem");
-define(pmsurum, "profilmuzigi173");
+define("pmsurum", "profilmuzigi173");
 
 function profilmuzigiek_info()
 {
@@ -285,9 +285,9 @@ function profilmuzigi_getir($yer = "profil")
 {
 	global $db, $mybb, $templates, $lang;
 	$lang->load("profilmuzigi", true);
-	if(!function_exists(curl_init) && (!function_exists(fsockopen))) $db->write_query("UPDATE ".TABLE_PREFIX."settings SET value=0 WHERE name='profilmuzigiek_soundcloud'");
-	if(!ini_get("allow_url_fopen") || (!function_exists(fsockopen))) $db->write_query("UPDATE ".TABLE_PREFIX."settings SET value=0 WHERE name='profilmuzigiek_dogrulayicilar'");
-	$user2 = intval($mybb->input[uid]);
+	if(!function_exists("curl_init") && (!function_exists("fsockopen"))) $db->write_query("UPDATE ".TABLE_PREFIX."settings SET value=0 WHERE name='profilmuzigiek_soundcloud'");
+	if(!ini_get("allow_url_fopen") || (!function_exists("fsockopen"))) $db->write_query("UPDATE ".TABLE_PREFIX."settings SET value=0 WHERE name='profilmuzigiek_dogrulayicilar'");
+	$user2 = intval($mybb->input["uid"]);
 	if ($user2 == false) $user2 = intval($mybb->user['uid']);
 	$query = $db->write_query("SELECT * FROM " . TABLE_PREFIX . "users WHERE uid=" . $user2);
 	$user = $db->fetch_array($query);
@@ -403,7 +403,7 @@ function izinvarmi($user)
 	// Üyenin ya da üyenin bulunduğu grubun profil müziği ekleme izni var mı kontrol eder.
 
 	global $mybb;
-	$user2 = intval($mybb->input[uid]);
+	$user2 = intval($mybb->input['uid']);
 	if ($user2 == false) $user2 = intval($mybb->user['uid']);
 
 	$user_perms = user_permissions($user2);
@@ -415,7 +415,7 @@ function profilduzenle()
 {
 	global $templates, $profilmuzigiduzenle, $lang, $theme, $mybb, $db;
 	$uyari = profilmuzigi_getir("profilduzenle");
-	$user2 = intval($mybb->input[uid]);
+	$user2 = intval($mybb->input["uid"]);
 	if ($user2 == false) $user2 = intval($mybb->user['uid']);
 	$query = $db->write_query("SELECT * FROM " . TABLE_PREFIX . "users WHERE uid=" . $user2);
 	$user = $db->fetch_array($query);
