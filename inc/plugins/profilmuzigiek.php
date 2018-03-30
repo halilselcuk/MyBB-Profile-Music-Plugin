@@ -43,7 +43,7 @@ function profilmuzigiek_info()
 		"website" => "http://www.halilselcuk.net/2016/07/mybb-profile-music-plugin.html",
 		"author" => "</i>Halil Selçuk<i>",
 		"authorsite" => "https://halilselcuk.com",
-		"version" => "1.7.3.1",
+		"version" => "1.7.3.2",
 		"compatibility" => "*",
 		"codename" => "my_profile_music"
 	);
@@ -543,8 +543,7 @@ function y_profil_duzenle($pluginargs)
 	$lang->load("profilmuzigi");
 	$lang->set_language($cp_language, "admin");
 	
-	$query = $db->write_query("SELECT * FROM " . TABLE_PREFIX . "users WHERE username = '" . $mybb->input['username'] . "';");
-	$user = $db->fetch_array($query);
+	$user = get_user($mybb->input['uid']);
 	$url = $user[pmsurum];
 	
 	if ($pluginargs['title'] == $lang->return_date && $lang->return_date)
@@ -596,7 +595,9 @@ function y_profil_guncelle()
 			'profilmuzigiacik' => $acikmi
 			
 			);
-			$db->update_query("users", $dizi, "username = '" . $mybb->input['username'] . "'");
+			
+			$user = get_user($mybb->input['uid']);
+			$db->update_query("users", $dizi, "uid = '" . $user['uid'] . "'");
 		}
 }
 
