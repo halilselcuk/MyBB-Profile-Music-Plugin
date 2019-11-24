@@ -18,7 +18,7 @@ $plugins->add_hook("member_profile_start", "profilmuzigi");
 $plugins->add_hook("admin_formcontainer_output_row", "grupyetkileri");
 $plugins->add_hook("admin_user_groups_edit_commit", "grupyetkileriguncelle");
 $plugins->add_hook("admin_formcontainer_output_row", "y_profil_duzenle");
-$plugins->add_hook("admin_user_users_edit", "y_profil_guncelle");
+$plugins->add_hook("admin_user_users_edit_commit", "y_profil_guncelle");
 $plugins->add_hook("admin_page_output_header", "profilmuzigi_guncelle_bildirim");
 $plugins->add_hook("admin_config_plugins_begin", "profilmuzigi_islem");
 define("pmsurum", "profilmuzigi173");
@@ -40,10 +40,10 @@ function profilmuzigiek_info()
 	return array(
 		"name" => $lang->profilmuzigiek_name,
 		"description" => $aciklama,
-		"website" => "http://www.halilselcuk.net/2016/07/mybb-profile-music-plugin.html",
+		"website" => "https://halilselcuk.net/2016/07/mybb-profile-music-plugin.html",
 		"author" => "</i>Halil Selçuk<i>",
 		"authorsite" => "https://halilselcuk.com",
-		"version" => "1.7.3.2",
+		"version" => "1.7.3.3",
 		"compatibility" => "*",
 		"codename" => "my_profile_music"
 	);
