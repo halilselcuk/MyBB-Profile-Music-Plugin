@@ -47,9 +47,7 @@ $l['profilmuzigiek_setting_validators_desc'] = 'This feature checks whether the 
 $l['profilmuzigiek_setting_mp3'] = "Activate Hotlink Sound Support";
 $l['profilmuzigiek_setting_youtube'] = "Activate YouTube Support";
 $l['profilmuzigiek_setting_soundcloud'] = "Activate SoundCloud Support";
-$l['profilmuzigiek_setting_soundcloud_desc'] = "<b>This feature needs cURL Library. If you don't have cURL Library this setting will be disabled automatically.</b>";
-$l['profilmuzigiek_setting_soundcloud_parameters'] = "SoundCloud parameters:";
-$l['profilmuzigiek_setting_soundcloud_parameters_desc'] = "For parameters and info: <a href=\"https://developers.soundcloud.com/docs/api/html5-widget\" target=\"_blank\">https://developers.soundcloud.com/docs/api/html5-widget</a> ";
+$l['profilmuzigiek_setting_soundcloud_desc'] = "You can customize it by editing template. For parameters and info: <a href=\"https://developers.soundcloud.com/docs/api/html5-widget\" target=\"_blank\">https://developers.soundcloud.com/docs/api/html5-widget</a> ";;
 $l['profilmuzigiek_setting_autoplay'] = "Activate Autoplay";
 $l['profilmuzigiek_setting_autoplay_desc'] = "If you activate this setting musics will automatically start playing.";
 $l['profilmuzigiek_setting_http_allowed'] = "Allow Insecure Connection";

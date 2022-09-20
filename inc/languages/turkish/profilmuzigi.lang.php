@@ -47,9 +47,7 @@ $l['profilmuzigiek_setting_validators_desc'] = 'Bu özellik kullanıcının gird
 $l['profilmuzigiek_setting_mp3'] = "Doğrudan bağlantılı ses dosyası desteği açılsın mı?";
 $l['profilmuzigiek_setting_youtube'] = "YouTube desteği açılsın mı?";
 $l['profilmuzigiek_setting_soundcloud'] = "SoundCloud desteği açılsın mı?";
-$l['profilmuzigiek_setting_soundcloud_desc'] = "<b>Bu özelliğin çalışması için cURL ya da fsockopen etkin olmalıdır. Eğer gereksinimler sağlanmıyorsa ayar kendiliğinden kapanacaktır.</b>";
-$l['profilmuzigiek_setting_soundcloud_parameters'] = "SoundCloud değiştirgenleri(parametre):";
-$l['profilmuzigiek_setting_soundcloud_parameters_desc'] = "Değiştirgenler ve bilgi için: <a href=\"https://developers.soundcloud.com/docs/api/html5-widget\" target=\"_blank\">https://developers.soundcloud.com/docs/api/html5-widget</a> ";
+$l['profilmuzigiek_setting_soundcloud_desc'] = "Şablonu düzenleyerek özelleştirebilirsiniz. Değiştirgenler ve bilgi için: <a href=\"https://developers.soundcloud.com/docs/api/html5-widget\" target=\"_blank\">https://developers.soundcloud.com/docs/api/html5-widget</a> ";;
 $l['profilmuzigiek_setting_autoplay'] = "Otomatik oynatma özelliği açılsın mı?";
 $l['profilmuzigiek_setting_autoplay_desc'] = "Bu ayarı açarsanız kullanıcının profiline girildiğinde müzik çalmaya başlar.";
 $l['profilmuzigiek_setting_http_allowed'] = "Güvenli olmayan ses dosyası bağlantılarına izin verilsin mi?";
