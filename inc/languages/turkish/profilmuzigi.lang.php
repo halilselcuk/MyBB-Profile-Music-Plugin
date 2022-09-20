@@ -15,10 +15,10 @@ $l['profilmuzigiek_usercp_yourmusic'] = "Eklemek istediğiniz ses dosyasının b
 $l['profilmuzigiek_usercp_exp'] = "Link SoundCloud, YouTube ya da doğrudan bağlantılı ses dosyası olmalıdır. Örnek: </br>
 Soundcloud: https://soundcloud.com/cr2o3/tomb-raider-legend-main-theme</br>
 
-Youtube: https://www.youtube.com/watch?v=vT8OU5WtfkQ</br>
+Youtube: https://www.youtube.com/watch?v=IPMnEmkoPFs</br>
 
 
-Doğrudan bağlantılı ses dosyası: https://demomybb.tk/demo.mp3</br>";
+Doğrudan bağlantılı ses dosyası: https://mybb.halilselcuk.com/demo.mp3</br>";
 
 
 //MOD CP

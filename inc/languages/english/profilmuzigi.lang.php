@@ -15,10 +15,10 @@ $l['profilmuzigiek_usercp_yourmusic'] = "Your profile music link:";
 $l['profilmuzigiek_usercp_exp'] = "Link must be SoundCloud, YouTube or hotlink sound file. Example: </br>
 Soundcloud: https://soundcloud.com/cr2o3/tomb-raider-legend-main-theme</br>
 
-Youtube: https://www.youtube.com/watch?v=vT8OU5WtfkQ</br>
+Youtube: https://www.youtube.com/watch?v=IPMnEmkoPFs</br>
 
 
-Hotlink sound: https://demomybb.tk/demo.mp3</br>";
+Hotlink sound: https://mybb.halilselcuk.com/demo.mp3</br>";
 
 
 //MOD CP

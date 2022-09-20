@@ -40,7 +40,7 @@ function profilmuzigiek_info()
 	return array(
 		"name" => $lang->profilmuzigiek_name,
 		"description" => $aciklama,
-		"website" => "https://halilselcuk.net/2016/07/mybb-profile-music-plugin.html",
+		"website" => "https://halilselcuk.blogspot.com/2016/07/mybb-profile-music-plugin.html",
 		"author" => "</i>Halil Selçuk<i>",
 		"authorsite" => "https://halilselcuk.com",
 		"version" => "1.7.3.3",
