@@ -238,6 +238,7 @@ function profilmuzigiek_uninstall()
 	$db->delete_query("settings", "name = 'profilmuzigiek_mp3'");
 	$db->delete_query("settings", "name = 'profilmuzigiek_dogrulayicilar'");
 	$db->delete_query("settings", "name = 'profilmuzigiek_http_allowed'");
+	$db->delete_query("settings", "name = 'profilmuzigiek_otomatik_oynat'");
 
 }
 
