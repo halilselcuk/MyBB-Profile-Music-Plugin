@@ -599,8 +599,6 @@ function profilmuzigi_guncelle()
 
 	if ($db->field_exists("profilmuzigi17", "users"))
 	{
-		$db->query("ALTER TABLE " . TABLE_PREFIX . "users CHANGE profilmuzigi17 " . pmsurum . " VARCHAR(300) NULL");
-
 		$sorgu = $db->query("SELECT * FROM " . TABLE_PREFIX . "settinggroups WHERE name='profilmuzigiayarlari'");
 		$ayar = $db->fetch_array($sorgu);
 		$profilmuzigiayarlar = array(
@@ -620,12 +618,12 @@ function profilmuzigi_guncelle()
 		}
 
 		rebuild_settings();
+		
+		$db->query("ALTER TABLE " . TABLE_PREFIX . "users CHANGE profilmuzigi17 " . pmsurum . " VARCHAR(300) NULL");
 	}
 
 	if ($db->field_exists("profilmuzigi173", "users"))
 	{
-		$db->query("ALTER TABLE " . TABLE_PREFIX . "users CHANGE profilmuzigi173 " . pmsurum . " VARCHAR(300) NULL");
-
 		$db->delete_query("settings", "name = 'profilmuzigiek_soundcloud_degistirgenler'");
 		rebuild_settings();
 		
@@ -637,8 +635,9 @@ function profilmuzigi_guncelle()
 		);
 		$db->insert_query("templates", $soundcloud);
 		
-		$db->query("UPDATE `mybb_settings` SET `description` = '".$db->escape_string($lang->profilmuzigiek_setting_soundcloud_desc)."' WHERE `mybb_settings`.`name` = 'profilmuzigiek_soundcloud';");
-
+		$db->query("UPDATE `" . TABLE_PREFIX . "settings` SET `description` = '".$db->escape_string($lang->profilmuzigiek_setting_soundcloud_desc)."' WHERE `" . TABLE_PREFIX . "settings`.`name` = 'profilmuzigiek_soundcloud';");
+		
+		$db->query("ALTER TABLE " . TABLE_PREFIX . "users CHANGE profilmuzigi173 " . pmsurum . " VARCHAR(300) NULL");		
 		flash_message($lang->profilmuzigiek_update_success, "success");
 		admin_redirect("index.php?module=config-plugins");
 
