@@ -167,7 +167,7 @@ function profilmuzigiek_install()
 				'title' => $lang->profilmuzigiek_setting_soundcloud,
 				'description' => $db->escape_string($lang->profilmuzigiek_setting_soundcloud_desc) ,
 				'optionscode' => 'yesno',
-				'value' => function_exists(curl_init) ? 1 : 0,
+				'value' => 1,
 				'disporder' => 3
 			) ,
 
@@ -189,7 +189,7 @@ function profilmuzigiek_install()
 				'title' => $lang->profilmuzigiek_setting_validators,
 				'description' => $db->escape_string($lang->profilmuzigiek_setting_validators_desc) ,
 				'optionscode' => 'yesno',
-				'value' => ini_get("allow_url_fopen") ? 1 : 0,
+				'value' => (ini_get("allow_url_fopen") && extension_loaded('openssl')) ? 1 : 0,
 				'disporder' => 0
 			) ,
 			'profilmuzigiek_otomatik_oynat' => array(
@@ -289,7 +289,7 @@ function profilmuzigi_getir($yer = "profil")
 {
 	global $db, $mybb, $templates, $lang;
 	$lang->load("profilmuzigi", true);
-	if (!ini_get("allow_url_fopen") || (!function_exists("fsockopen"))) $db->write_query("UPDATE " . TABLE_PREFIX . "settings SET value=0 WHERE name='profilmuzigiek_dogrulayicilar'");
+	if (!ini_get("allow_url_fopen") || !function_exists("fsockopen") || !extension_loaded('openssl')) $db->write_query("UPDATE " . TABLE_PREFIX . "settings SET value=0 WHERE name='profilmuzigiek_dogrulayicilar'");
 	$user2 = intval($mybb->input["uid"] ?? false);
 	if ($user2 == false) $user2 = intval($mybb->user['uid']);
 	$query = $db->write_query("SELECT * FROM " . TABLE_PREFIX . "users WHERE uid=" . $user2);
@@ -307,7 +307,7 @@ function profilmuzigi_getir($yer = "profil")
 				{
 					if ($mybb->settings['profilmuzigiek_youtube'])
 					{
-						if (LinkKontrol('http://www.youtube.com/oembed?url=' . $url . ''))
+						if (LinkKontrol('https://www.youtube.com/oembed?url=' . $url . ''))
 						{
 							if ($mybb->settings['profilmuzigiek_otomatik_oynat'] && $yer == "profil") $url .= "?autoplay=1";
 							$youtubeid = youtubeidal($url);
@@ -322,7 +322,7 @@ function profilmuzigi_getir($yer = "profil")
 				{
 					if ($mybb->settings['profilmuzigiek_soundcloud'])
 					{
-						if (LinkKontrol('http://soundcloud.com/oembed?url=' . $url . ''))
+						if (LinkKontrol('https://soundcloud.com/oembed?url=' . $url . ''))
 						{
 							if ($mybb->settings['profilmuzigiek_otomatik_oynat'] && $yer == "profil") $url .= "&auto_play=true";
 							eval("\$profilmuzigi = \"" . $templates->get("profilmuzigiek_soundcloud") . "\";");
@@ -493,7 +493,8 @@ function LinkKontrol($url)
 		if (sitekontrol($url))
 		{
 			$headers = get_headers($url);
-			if (substr($headers[0], 9, 3) == 404) return 0;
+			$statusCode = substr($headers[0] ?? 0, 9, 3);
+			if ($statusCode == 404 || $statusCode == 400 ) return 0;
 			else return 1;
 		}
 		else return 0;
