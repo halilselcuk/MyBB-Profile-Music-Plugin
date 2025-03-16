@@ -247,9 +247,10 @@ function profilmuzigiek_deactivate()
 	global $db;
 	require_once MYBB_ROOT . "inc/adminfunctions_templates.php";
 
-	find_replace_templatesets('modcp_editprofile', preg_quote('#{$modprofilmuzigiduzenle}#') , '', 0);
-	find_replace_templatesets('usercp_profile', preg_quote('#{$profilmuzigiduzenle}#') , '', 0);
-	find_replace_templatesets('member_profile', preg_quote('#{$profilmuzigi}#') , '', 0);
+	find_replace_templatesets('modcp_editprofile', '#{\$modprofilmuzigiduzenle\}#', '');
+	find_replace_templatesets('usercp_profile', '#{\$profilmuzigiduzenle\}#', '');
+	find_replace_templatesets('member_profile', '#{\$profilmuzigi\}#', '');
+	
 }
 
 function youtubeidal($url)
@@ -289,7 +290,7 @@ function profilmuzigi_getir($yer = "profil")
 	global $db, $mybb, $templates, $lang;
 	$lang->load("profilmuzigi", true);
 	if (!ini_get("allow_url_fopen") || (!function_exists("fsockopen"))) $db->write_query("UPDATE " . TABLE_PREFIX . "settings SET value=0 WHERE name='profilmuzigiek_dogrulayicilar'");
-	$user2 = intval($mybb->input["uid"]);
+	$user2 = intval($mybb->input["uid"] ?? false);
 	if ($user2 == false) $user2 = intval($mybb->user['uid']);
 	$query = $db->write_query("SELECT * FROM " . TABLE_PREFIX . "users WHERE uid=" . $user2);
 	$user = $db->fetch_array($query);
@@ -352,6 +353,8 @@ function profilmuzigi_getir($yer = "profil")
 			}
 			else $profilmuzigi = hatayaz($lang->profilmuzigiek_link_not_valid, $yer, $user2);
 		}
+		else $profilmuzigi = "";
+		
 	}
 	return $profilmuzigi;
 }
@@ -363,7 +366,7 @@ function hatayaz($mesaj, $yer, $user2)
 	{
 		$user_perms = user_permissions($mybb->user['uid']);
 		if ( /*($user2 == $mybb->user['uid']) ||*/
-		($user_perms['issupermod'] == 1))
+		($user_perms['issupermod']) == 1)
 		{
 			$lang->load("profilmuzigi", true);
 			if (($user_perms['issupermod'] == 1) && ($user2 != $mybb->user['uid']))
@@ -391,12 +394,11 @@ function hatayaz($mesaj, $yer, $user2)
 
 function izinvarmi($user)
 {
-
-	// Üyenin ya da üyenin bulunduğu grubun profil müziği ekleme izni var mı kontrol eder.
+	// Üyenin ve üyenin bulunduğu grubun profil müziği ekleme izni var mı kontrol eder.
 	global $mybb;
-	$user2 = intval($mybb->input['uid']);
+	$user2 = intval($mybb->input['uid'] ?? false);
 	if ($user2 == false) $user2 = intval($mybb->user['uid']);
-
+	
 	$user_perms = user_permissions($user2);
 	if (($user_perms['profilmuzigi']) && ($user['profilmuzigiacik'])) return 1;
 	else return 0;
@@ -406,8 +408,7 @@ function profilduzenle()
 {
 	global $templates, $profilmuzigiduzenle, $lang, $theme, $mybb, $db;
 	$uyari = profilmuzigi_getir("profilduzenle");
-	$user2 = intval($mybb->input["uid"]);
-	if ($user2 == false) $user2 = intval($mybb->user['uid']);
+	$user2 = intval($mybb->user['uid']);
 	$query = $db->write_query("SELECT * FROM " . TABLE_PREFIX . "users WHERE uid=" . $user2);
 	$user = $db->fetch_array($query);
 	$url = $user[pmsurum];
@@ -507,7 +508,7 @@ function grupyetkileri($pluginargs)
 	if (!file_exists(MYBB_ROOT . "inc/languages/" . $cp_language . "/admin/profilmuzigi.lang.php")) $lang->set_language("english", "admin");
 	$lang->load("profilmuzigi");
 	$lang->set_language($cp_language, "admin");
-	if ($pluginargs['title'] == $lang->misc && $lang->misc)
+	if ($pluginargs['title'] == ($lang->misc ?? 0))
 	{
 		$ayar = "<strong>" . $lang->profilmuzigiek_setting_can_add_music . "</strong><br /> <div class=\"user_settings_bit\">" . $form->generate_check_box('profilmuzigi', 1, $lang->profilmuzigiek_setting_can_add_music, array(
 			'checked' => $mybb->input['profilmuzigi'],
@@ -533,11 +534,10 @@ function y_profil_duzenle($pluginargs)
 	$lang->load("profilmuzigi");
 	$lang->set_language($cp_language, "admin");
 
-	$user = get_user($mybb->input['uid']);
-	$url = $user[pmsurum];
-
-	if ($pluginargs['title'] == $lang->return_date && $lang->return_date)
+	if ($pluginargs['title'] == ($lang->return_date ?? 0))
 	{
+		$user = get_user($mybb->input['uid']);
+		$url = $user[pmsurum];
 		$ayar = "</div>
 </td>
 		</tr>
@@ -636,8 +636,9 @@ function profilmuzigi_guncelle()
 		$db->insert_query("templates", $soundcloud);
 		
 		$db->query("UPDATE `" . TABLE_PREFIX . "settings` SET `description` = '".$db->escape_string($lang->profilmuzigiek_setting_soundcloud_desc)."' WHERE `" . TABLE_PREFIX . "settings`.`name` = 'profilmuzigiek_soundcloud';");
+
+		$db->query("ALTER TABLE " . TABLE_PREFIX . "users CHANGE profilmuzigi173 " . pmsurum . " VARCHAR(300) NULL");
 		
-		$db->query("ALTER TABLE " . TABLE_PREFIX . "users CHANGE profilmuzigi173 " . pmsurum . " VARCHAR(300) NULL");		
 		flash_message($lang->profilmuzigiek_update_success, "success");
 		admin_redirect("index.php?module=config-plugins");
 
@@ -647,7 +648,8 @@ function profilmuzigi_guncelle()
 function profilmuzigi_islem()
 {
 	global $mybb;
-	$islem = $mybb->input['profilmuzigi_islem'];
+	$islem = $mybb->input['profilmuzigi_islem'] ?? null;
+	if($islem == null) return;
 	if ($mybb->input['my_post_key'] != $mybb->post_code) return;
 	if ($islem == 'guncelle')
 	{
