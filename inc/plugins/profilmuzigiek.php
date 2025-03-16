@@ -43,7 +43,7 @@ function profilmuzigiek_info()
 		"website" => "https://halilselcuk.blogspot.com/2016/07/mybb-profile-music-plugin.html",
 		"author" => "</i>Halil Selçuk<i>",
 		"authorsite" => "https://halilselcuk.com",
-		"version" => "1.7.4",
+		"version" => "1.7.5",
 		"compatibility" => "*",
 		"codename" => "my_profile_music"
 	);
